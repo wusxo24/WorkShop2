@@ -44,17 +44,17 @@ public class ChangeServlet extends HttpServlet {
             String MobileName = request.getParameter("MobileName");
             int CartAmount = Integer.parseInt(request.getParameter("CartAmount"));
             Double Price = Double.parseDouble(request.getParameter("Price"));
+            int quantity = Integer.parseInt(request.getParameter("Quantity"));
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("Cart");
             if (cart != null) {
                 if (cart.getCart().containsKey(MobileId)) {
                     String Description = cart.getCart().get(MobileId).getDescription();
                     int yearOfProduction = cart.getCart().get(MobileId).getYearOfProduction();
-                    int quantity = cart.getCart().get(MobileId).getQuantity();
                     boolean notSale = cart.getCart().get(MobileId).getNotSale();
                     int oldCartAmount = cart.getCart().get(MobileId).getCartAmount();
                     Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity, notSale, CartAmount);
-                    boolean check = cart.change(mobile, CartAmount);
+                    boolean check = cart.change(mobile, oldCartAmount);
                     if (check) {
                         request.getSession().setAttribute("Cart", cart);
                         request.getSession().setAttribute("Cartmessage", "Change from " + oldCartAmount + " to " + CartAmount + " for " + MobileName + "successfully");

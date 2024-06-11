@@ -99,9 +99,10 @@
                 <input type = "hidden" name = "MobileId" value = "<%= p.getMobileId()%>">
                 <td><%= p.getMobileName()%></td>
                 <input type = "hidden" name = "MobileName" value = "<%= p.getMobileName()%>">
-                <td class = 's'><input type = "number" name = "CartAmount" value ="<%= p.getCartAmount()%>">   </td>
+                <td class = 's'><input type = "number" name = "CartAmount" value ="<%= p.getCartAmount()%>" min="1" max="<%=p.getQuantity()%>"> </td>
                 <td><%= p.getPrice()%></td>
                 <input type = "hidden" name = "Price" value = "<%= p.getPrice()%>">
+                <input type = "hidden" name = "Quantity" value = "<%= p.getQuantity()%>">
                 <td><%= p.getPrice() * p.getCartAmount()%>$</td>
                 <td><input type="submit" name="action" value="Change"></td>
                 <td><input type="submit" name="action" value="Remove"></td>

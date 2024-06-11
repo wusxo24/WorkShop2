@@ -175,50 +175,23 @@ public class MobileDAO {
 
     }
 
-    public boolean updateQuantityByRemoveCartAmmount(String mobileId, String description, double price, String mobileName, int yearOfProduction, int quantity, boolean notSale, int CartAmount) {
-        String query = "UPDATE Mobiles SET description = ?, price = ?, mobileName = ?, yearOfProduction = ?, quantity = ?, notSale = ? WHERE mobileId = ?";
-        int updatedQuantity = quantity + CartAmount - 1;
-        try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
-            ps.setString(1, description);
-            ps.setDouble(2, price);
-            ps.setString(3, mobileName);
-            ps.setInt(4, yearOfProduction);
-            ps.setInt(5, updatedQuantity);
-            ps.setBoolean(6, notSale);
-            ps.setString(7, mobileId);
-            int status = ps.executeUpdate();
-            return status > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-
+public boolean updateQuantityFromCart(String mobileId, String description, double price, String mobileName, int yearOfProduction, int quantity, boolean notSale, int CartAmount) {
+    String query = "UPDATE Mobiles SET description = ?, price = ?, mobileName = ?, yearOfProduction = ?, quantity = ?, notSale = ? WHERE mobileId = ?";
+    try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
+        ps.setString(1, description);
+        ps.setDouble(2, price);
+        ps.setString(3, mobileName);
+        ps.setInt(4, yearOfProduction);
+        ps.setInt(5, quantity);
+        ps.setBoolean(6, notSale);
+        ps.setString(7, mobileId);
+        int status = ps.executeUpdate();
+        return status > 0;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
-
-    public boolean updateQuantityBaseOnCartAmmount(String mobileId, String description, double price, String mobileName, int yearOfProduction, int quantity, boolean notSale, int CartAmount, int newCartAmount) {
-        String query = "UPDATE Mobiles SET description = ?, price = ?, mobileName = ?, yearOfProduction = ?, quantity = ?, notSale = ? WHERE mobileId = ?";
-        int updatedQuantity;
-        if (newCartAmount > CartAmount) {
-            updatedQuantity = (quantity) - (newCartAmount - CartAmount);
-        } else {
-            updatedQuantity = (quantity) + (CartAmount - newCartAmount);
-        }
-        try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
-            ps.setString(1, description);
-            ps.setDouble(2, price);
-            ps.setString(3, mobileName);
-            ps.setInt(4, yearOfProduction);
-            ps.setInt(5, updatedQuantity);
-            ps.setBoolean(6, notSale);
-            ps.setString(7, mobileId);
-            int status = ps.executeUpdate();
-            return status > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-
-    }
+    return false;
+}
 
     public boolean addMobile(String mobileId, String description, double price, String mobileName, int yearOfProduction, int quantity, boolean notSale) {
         String query = "INSERT INTO Mobiles (mobileId, description, price, mobileName, yearOfProduction, quantity, notSale) VALUES (?, ?, ?, ?, ?, ?, ?)";

@@ -41,18 +41,17 @@ public class RemoveServlet extends HttpServlet {
         try {
             String MobileId = request.getParameter("MobileId");
             String MobileName = request.getParameter("MobileName");
-            int NewCartAmount = Integer.parseInt(request.getParameter("CartAmount"));
             Double Price = Double.parseDouble(request.getParameter("Price"));
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("Cart");
             if (cart != null) {
                 if (cart.getCart().containsKey(MobileId)) {
-                    int CartAmount = cart.getCart().get(MobileId).getCartAmount();
+                    int oldCartAmount = cart.getCart().get(MobileId).getCartAmount();
                     String Description = cart.getCart().get(MobileId).getDescription();
                     int yearOfProduction = cart.getCart().get(MobileId).getYearOfProduction();
                     int quantity = cart.getCart().get(MobileId).getQuantity();
                     Boolean notSale = cart.getCart().get(MobileId).getNotSale();
-                    Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity, notSale, CartAmount);
+                    Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity + oldCartAmount, notSale, oldCartAmount);
                     boolean check = cart.remove(mobile);
                     if (check) {
                         request.getSession().setAttribute("Cart", cart);

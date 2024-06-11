@@ -73,7 +73,7 @@ public class Cart {
                     this.cart.remove(mobileId);
                     check = true;
                     MobileDAO mobiledao = new MobileDAO();
-                    mobiledao.updateQuantityByRemoveCartAmmount(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale, cartAmount);
+                    mobiledao.updateQuantityFromCart(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale, cartAmount);
                 }
             }
 
@@ -83,7 +83,7 @@ public class Cart {
         return check;
     }
 
-    public boolean change(Mobile mobile, int NewCartAmount) {
+    public boolean change(Mobile mobile, int oldCartAmount) {
         boolean check = false;
         String mobileId = mobile.getMobileId();
         String description = mobile.getDescription();
@@ -93,13 +93,14 @@ public class Cart {
         int quantity = mobile.getQuantity();
         Boolean notSale = mobile.getNotSale();
         int cartAmount = mobile.getCartAmount();
+        int cartDif = cartAmount - oldCartAmount;
         try {
             if (this.cart != null) {
                 if (this.cart.containsKey(mobileId)) {
-                    this.cart.replace(mobileId, new Mobile(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale, NewCartAmount));
+                    this.cart.replace(mobileId, new Mobile(mobileId, description, price, mobileName, yearOfProduction, quantity - cartDif, notSale, cartAmount));
                     check = true;
                     MobileDAO mobiledao = new MobileDAO();
-                    mobiledao.updateQuantityBaseOnCartAmmount(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale, cartAmount, NewCartAmount);
+                    mobiledao.updateQuantityFromCart(mobileId, description, price, mobileName, yearOfProduction, quantity - cartDif, notSale, cartAmount);
                 }
             }
 
