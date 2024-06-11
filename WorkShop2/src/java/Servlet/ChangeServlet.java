@@ -41,23 +41,23 @@ public class ChangeServlet extends HttpServlet {
         String url = CART;
         try {
             String MobileId = request.getParameter("MobileId");
-            String MobileName = request.getParameter("MobileName");
-            int NewCartAmount = Integer.parseInt(request.getParameter("CartAmount"));
-            Double Price = Double.parseDouble(request.getParameter("Price"));
+            int CartAmount = Integer.parseInt(request.getParameter("CartAmount"));
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("Cart");
             if (cart != null) {
                 if (cart.getCart().containsKey(MobileId)) {
-                    int CartAmount = cart.getCart().get(MobileId).getCartAmount();
+                    Double Price = cart.getCart().get(MobileId).getPrice();
+                    String MobileName = cart.getCart().get(MobileId).getMobileName();
+                    int OldCartAmount = cart.getCart().get(MobileId).getCartAmount();
                     String Description = cart.getCart().get(MobileId).getDescription();
                     int yearOfProduction = cart.getCart().get(MobileId).getYearOfProduction();
                     int quantity = cart.getCart().get(MobileId).getQuantity();
                     Boolean notSale = cart.getCart().get(MobileId).getNotSale();
                     Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity, notSale, CartAmount);
-                    boolean check = cart.change(mobile, NewCartAmount);
+                    boolean check = cart.change(mobile, OldCartAmount);
                     if (check) {
                         request.getSession().setAttribute("Cart", cart);
-                        request.getSession().setAttribute("Cartmessage", "Change from " + CartAmount + " to " + NewCartAmount + " for " + MobileName + "successfully");
+                        request.getSession().setAttribute("Cartmessage", "Change from " + OldCartAmount + " to " + CartAmount + " for " + MobileName + "successfully");
                         MobileDAO mobiledao = new MobileDAO();
                         List<Mobile> updatedSearchList = mobiledao.getAllMobiles();
                         request.getSession().setAttribute("SearchPriceList", updatedSearchList);

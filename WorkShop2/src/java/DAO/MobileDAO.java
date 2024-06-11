@@ -199,9 +199,9 @@ public class MobileDAO {
         String query = "UPDATE Mobiles SET description = ?, price = ?, mobileName = ?, yearOfProduction = ?, quantity = ?, notSale = ? WHERE mobileId = ?";
         int updatedQuantity;
         if (newCartAmount > CartAmount) {
-            updatedQuantity = (quantity) - (newCartAmount - CartAmount + 1);
+            updatedQuantity = (quantity) - (newCartAmount - CartAmount);
         } else {
-            updatedQuantity = (quantity) + (CartAmount - newCartAmount - 1);
+            updatedQuantity = (quantity) + (CartAmount - newCartAmount);
         }
         try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
             ps.setString(1, description);
