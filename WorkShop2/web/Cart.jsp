@@ -4,6 +4,8 @@
     Author     : Acer
 --%>
 
+<%@page import="java.util.Map"%>
+<%@page import="DAO.MobileDAO"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
 <%@page import="DTO.Cart"%>
@@ -49,7 +51,7 @@
             .total {
                 color: blue;
             }
-            
+
             td input[name="Description"] {
                 width: 300px;
             }
@@ -66,6 +68,8 @@
     <body>
         <h1>Your Cart</h1>
         <%
+            MobileDAO mobiledao = new MobileDAO();
+            Map<String, Integer> QuantityLimitList = mobiledao.QuantityLimitList();
             List<Mobile> UpdatedSearchList = (List<Mobile>) session.getAttribute("SearchPriceList");
             String message = (String) session.getAttribute("Cartmessage");
             Cart cart = (Cart) session.getAttribute("Cart");
@@ -99,7 +103,8 @@
                 <input type = "hidden" name = "MobileId" value = "<%= p.getMobileId()%>">
                 <td><%= p.getMobileName()%></td>
                 <input type = "hidden" name = "MobileName" value = "<%= p.getMobileName()%>">
-                <td class = 's'><input type = "number" name = "CartAmount" value ="<%= p.getCartAmount()%>" min="1" max="<%=p.getQuantity()%>"> </td>
+                <input type="hidden" name="QuantityLimit" value="<%=QuantityLimitList.values().equals(p.getMobileId())%>">
+                <td class = 's'><input type = "number" name = "CartAmount" value ="<%= p.getCartAmount()%>" min="1" max="<%=QuantityLimitList.values().equals(p.getMobileId())%>"> </td>
                 <td><%= p.getPrice()%></td>
                 <input type = "hidden" name = "Price" value = "<%= p.getPrice()%>">
                 <input type = "hidden" name = "Quantity" value = "<%= p.getQuantity()%>">

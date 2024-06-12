@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MobileDAO {
 
@@ -155,43 +157,18 @@ public class MobileDAO {
         return false;
     }
 
-    public boolean updateQuantityByAddCartAmmount(String mobileId, String description, double price, String mobileName, int yearOfProduction, int quantity, boolean notSale, int CartAmount) {
-        String query = "UPDATE Mobiles SET description = ?, price = ?, mobileName = ?, yearOfProduction = ?, quantity = ?, notSale = ? WHERE mobileId = ?";
-        int updatedQuantity = quantity - CartAmount;
+    public boolean updateQuantityFromCart(String mobileId, int quantity) {
+        String query = "UPDATE Mobiles SET quantity = ? WHERE mobileId = ?";
         try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
-            ps.setString(1, description);
-            ps.setDouble(2, price);
-            ps.setString(3, mobileName);
-            ps.setInt(4, yearOfProduction);
-            ps.setInt(5, updatedQuantity);
-            ps.setBoolean(6, notSale);
-            ps.setString(7, mobileId);
+            ps.setInt(1, quantity);
+            ps.setString(2, mobileId);
             int status = ps.executeUpdate();
             return status > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
-
     }
-
-public boolean updateQuantityFromCart(String mobileId, String description, double price, String mobileName, int yearOfProduction, int quantity, boolean notSale, int CartAmount) {
-    String query = "UPDATE Mobiles SET description = ?, price = ?, mobileName = ?, yearOfProduction = ?, quantity = ?, notSale = ? WHERE mobileId = ?";
-    try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query)) {
-        ps.setString(1, description);
-        ps.setDouble(2, price);
-        ps.setString(3, mobileName);
-        ps.setInt(4, yearOfProduction);
-        ps.setInt(5, quantity);
-        ps.setBoolean(6, notSale);
-        ps.setString(7, mobileId);
-        int status = ps.executeUpdate();
-        return status > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return false;
-}
 
     public boolean addMobile(String mobileId, String description, double price, String mobileName, int yearOfProduction, int quantity, boolean notSale) {
         String query = "INSERT INTO Mobiles (mobileId, description, price, mobileName, yearOfProduction, quantity, notSale) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -209,5 +186,20 @@ public boolean updateQuantityFromCart(String mobileId, String description, doubl
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Map<String, Integer> QuantityLimitList() {
+       String query = "SELECT [mobileId], [quantity] FROM Mobiles";
+        Map<String, Integer> QuantityLimitList = new HashMap();
+        try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String mobileId = rs.getString(1);
+                int quantity = rs.getInt(2);
+                QuantityLimitList.put(mobileId, quantity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return QuantityLimitList;
     }
 }

@@ -44,8 +44,6 @@ public class Cart {
                 this.cart = new HashMap<>();
             }
             if (this.cart.containsKey(mobile.getMobileId())) {
-                int currentQuantity = this.cart.get(mobile.getMobileId()).getQuantity();
-                mobile.setQuantity(currentQuantity + mobile.getQuantity());
                 int currentCartAmount = this.cart.get(mobile.getMobileId()).getCartAmount();
                 mobile.setCartAmount(currentCartAmount + mobile.getCartAmount());
             }
@@ -59,21 +57,11 @@ public class Cart {
 
     public boolean remove(Mobile mobile) {
         boolean check = false;
-        String mobileId = mobile.getMobileId();
-        String description = mobile.getDescription();
-        Double price = mobile.getPrice();
-        String mobileName = mobile.getMobileName();
-        int yearOfProduction = mobile.getYearOfProduction();
-        int quantity = mobile.getQuantity();
-        Boolean notSale = mobile.getNotSale();
-        int cartAmount = mobile.getCartAmount();
         try {
             if (this.cart != null) {
-                if (this.cart.containsKey(mobileId)) {
-                    this.cart.remove(mobileId);
+                if (this.cart.containsKey(mobile.getMobileId())) {
+                    this.cart.remove(mobile.getMobileId());
                     check = true;
-                    MobileDAO mobiledao = new MobileDAO();
-                    mobiledao.updateQuantityFromCart(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale, cartAmount);
                 }
             }
 
@@ -83,24 +71,13 @@ public class Cart {
         return check;
     }
 
-    public boolean change(Mobile mobile, int oldCartAmount) {
+    public boolean change(Mobile mobile) {
         boolean check = false;
-        String mobileId = mobile.getMobileId();
-        String description = mobile.getDescription();
-        Double price = mobile.getPrice();
-        String mobileName = mobile.getMobileName();
-        int yearOfProduction = mobile.getYearOfProduction();
-        int quantity = mobile.getQuantity();
-        Boolean notSale = mobile.getNotSale();
-        int cartAmount = mobile.getCartAmount();
-        int cartDif = cartAmount - oldCartAmount;
         try {
             if (this.cart != null) {
-                if (this.cart.containsKey(mobileId)) {
-                    this.cart.replace(mobileId, new Mobile(mobileId, description, price, mobileName, yearOfProduction, quantity - cartDif, notSale, cartAmount));
+                if (this.cart.containsKey(mobile.getMobileId())) {
+                    this.cart.replace(mobile.getMobileId(), mobile);
                     check = true;
-                    MobileDAO mobiledao = new MobileDAO();
-                    mobiledao.updateQuantityFromCart(mobileId, description, price, mobileName, yearOfProduction, quantity - cartDif, notSale, cartAmount);
                 }
             }
 

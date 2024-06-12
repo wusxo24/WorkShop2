@@ -38,8 +38,7 @@ public class AddCartServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = null;
-        String message = null;
+        String url = USER;
         try {
             String mobileId = request.getParameter("MobileId");
             String description = request.getParameter("MobileDescription");
@@ -52,19 +51,17 @@ public class AddCartServlet extends HttpServlet {
             HttpSession session = request.getSession();
             Cart cart = (Cart) session.getAttribute("Cart");
             MobileDAO mobiledao = new MobileDAO();
-            Mobile mobile = new Mobile(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale, CartAmount);
+            Mobile mobile = new Mobile(mobileId, description, price, mobileName, yearOfProduction, quantity - CartAmount, notSale, CartAmount);
             if (cart == null) {
                 cart = new Cart();
             }
             boolean check = cart.add(mobile);
             if (check) {
-                message = "You added " + CartAmount + " " + mobileName + " to the cart.";
                 session.setAttribute("Cart", cart);
-                session.setAttribute("message", message);
-                mobiledao.updateQuantityByAddCartAmmount(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale, CartAmount);
+                session.setAttribute("message", "You added " + CartAmount + " " + mobileName + " to the cart.");
+                mobiledao.updateQuantityFromCart(mobileId, quantity - CartAmount);
                 List<Mobile> updatedSearchList = mobiledao.getAllMobiles();
                 request.getSession().setAttribute("SearchPriceList", updatedSearchList);
-                url = USER;
             }
         } catch (Exception e) {
             log("Error at AddCartServlet: " + e.toString());

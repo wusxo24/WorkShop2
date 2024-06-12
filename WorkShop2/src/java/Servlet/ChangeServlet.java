@@ -53,12 +53,14 @@ public class ChangeServlet extends HttpServlet {
                     int yearOfProduction = cart.getCart().get(MobileId).getYearOfProduction();
                     boolean notSale = cart.getCart().get(MobileId).getNotSale();
                     int oldCartAmount = cart.getCart().get(MobileId).getCartAmount();
-                    Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity, notSale, CartAmount);
-                    boolean check = cart.change(mobile, oldCartAmount);
+                    int cartDif = CartAmount - oldCartAmount;
+                    Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity - cartDif, notSale, CartAmount);
+                    boolean check = cart.change(mobile);
                     if (check) {
                         request.getSession().setAttribute("Cart", cart);
                         request.getSession().setAttribute("Cartmessage", "Change from " + oldCartAmount + " to " + CartAmount + " for " + MobileName + "successfully");
                         MobileDAO mobiledao = new MobileDAO();
+                        mobiledao.updateQuantityFromCart(MobileId, quantity - cartDif);
                         List<Mobile> updatedSearchList = mobiledao.getAllMobiles();
                         request.getSession().setAttribute("SearchPriceList", updatedSearchList);
 

@@ -46,17 +46,18 @@ public class RemoveServlet extends HttpServlet {
             Cart cart = (Cart) session.getAttribute("Cart");
             if (cart != null) {
                 if (cart.getCart().containsKey(MobileId)) {
-                    int oldCartAmount = cart.getCart().get(MobileId).getCartAmount();
+                    int CartAmount = cart.getCart().get(MobileId).getCartAmount();
                     String Description = cart.getCart().get(MobileId).getDescription();
                     int yearOfProduction = cart.getCart().get(MobileId).getYearOfProduction();
                     int quantity = cart.getCart().get(MobileId).getQuantity();
                     Boolean notSale = cart.getCart().get(MobileId).getNotSale();
-                    Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity + oldCartAmount, notSale, oldCartAmount);
+                    Mobile mobile = new Mobile(MobileId, Description, Price, MobileName, yearOfProduction, quantity + CartAmount, notSale, CartAmount);
                     boolean check = cart.remove(mobile);
                     if (check) {
                         request.getSession().setAttribute("Cart", cart);
-                        request.getSession().setAttribute("Remove", "Remove " + MobileName + " successfully");
+                        request.getSession().setAttribute("Cartmessage", "Remove " + MobileName + " successfully");
                         MobileDAO mobiledao = new MobileDAO();
+                        mobiledao.updateQuantityFromCart(MobileId,quantity + CartAmount);
                         List<Mobile> updatedSearchList = mobiledao.getAllMobiles();
                         request.getSession().setAttribute("SearchPriceList", updatedSearchList);
 
