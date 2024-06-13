@@ -187,19 +187,4 @@ public class MobileDAO {
         }
         return false;
     }
-
-    public Map<String, Integer> QuantityLimitList() {
-       String query = "SELECT [mobileId], [quantity] FROM Mobiles";
-        Map<String, Integer> QuantityLimitList = new HashMap();
-        try (Connection cn = getConnection(); PreparedStatement ps = cn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                String mobileId = rs.getString(1);
-                int quantity = rs.getInt(2);
-                QuantityLimitList.put(mobileId, quantity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return QuantityLimitList;
-    }
 }

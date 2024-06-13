@@ -35,7 +35,6 @@ public class UserDAO {
     }
 
     public Boolean login(String userId, int password) throws Exception {
-        User user = null;
         String sql = "SELECT fullName, role FROM Users WHERE userId = ? AND password = ?";
 
         try (Connection connection = getConnection()) {
