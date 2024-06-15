@@ -41,7 +41,7 @@ public class StaffMainServlet extends HttpServlet {
                 url = UPDATE;
             } else if ("Delete".equals(action)) {
                 url = DELETE;
-            } else if ("Add to Cart".equals(action)) {
+            } else if ("Add".equals(action)) {
                 url = ADD;
             }
 

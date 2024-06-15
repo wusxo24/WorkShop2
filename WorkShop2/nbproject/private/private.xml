@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/Servlet/ChangeServlet.java</file>
-            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/DTO/Cart.java</file>
-            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/DTO/Mobile.java</file>
-            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/Servlet/RemoveServlet.java</file>
-            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/DAO/MobileDAO.java</file>
-            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/web/User.jsp</file>
+            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/Servlet/LoginServlet.java</file>
+            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/web/Add.jsp</file>
             <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/Servlet/AddCartServlet.java</file>
+            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/web/Login.jsp</file>
+            <file>file:/D:/Repository/Project%20SWP391/WorkShop2/WorkShop2/WorkShop2/src/java/Servlet/StaffMainServlet.java</file>
         </group>
     </open-files>
 </project-private>
